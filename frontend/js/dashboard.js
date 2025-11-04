@@ -28,6 +28,7 @@ const loadingState = document.getElementById('loadingState');
 const errorState = document.getElementById('errorState');
 const dashboardContent = document.getElementById('dashboardContent');
 const logoutModal = document.getElementById('logoutModal');
+const educationModal = document.getElementById('educationModal');
 
 document.addEventListener('DOMContentLoaded', function() {
   if (!checkAuth()) return;
@@ -44,7 +45,9 @@ function setupEventListeners() {
   document.getElementById('cancelLogoutBtn')?.addEventListener('click', () => hideModal(logoutModal));
   document.getElementById('confirmLogoutBtn')?.addEventListener('click', () => logout());
   
-  // PERBAIKAN: Cek apakah elemen 'userName' ada
+  document.getElementById('closeEducationModalBtn')?.addEventListener('click', () => hideModal(educationModal));
+  document.getElementById('okEducationModalBtn')?.addEventListener('click', () => hideModal(educationModal));
+ 
   const userNameEl = document.getElementById('userName');
   if(userData && userNameEl) {
     userNameEl.textContent = userData.name;
@@ -289,11 +292,20 @@ function renderActivities() {
         <div class="activity-name">${activity.name}</div>
         <div class="activity-points">+${activity.points} poin</div>
       </div>
+      <button class="activity-info-btn">💡</button> 
     `;
     
     const checkbox = activityElement.querySelector('.activity-checkbox');
     if (checkbox && !isCompleted) {
       checkbox.addEventListener('click', () => completeActivity(activity.name, checkbox));
+    }
+
+    const infoBtn = activityElement.querySelector('.activity-info-btn');
+    if (infoBtn) {
+      infoBtn.addEventListener('click', (e) => {
+        e.stopPropagation(); // Mencegah event 'click' menyebar ke checkbox
+        showEducationModal(activity);
+      });
     }
     
     activitiesContainer.appendChild(activityElement);
@@ -486,7 +498,22 @@ function renderChart() {
   });
 }
 
-// PERBAIKAN: Cek elemen sebelum mengisi
+/**
+ * Menampilkan modal edukasi dengan data aktivitas
+ * @param {object} activity Objek aktivitas (dari allActivities)
+ */
+function showEducationModal(activity) {
+  const titleEl = document.getElementById('educationModalTitle');
+  const descEl = document.getElementById('educationModalDescription');
+  const howToEl = document.getElementById('educationModalHowTo');
+
+  if (titleEl) titleEl.textContent = activity.name;
+  if (descEl) descEl.textContent = activity.description || 'Informasi belum tersedia.';
+  if (howToEl) howToEl.textContent = activity.howTo || 'Tips belum tersedia.';
+
+  showModal(educationModal);
+}
+
 function renderQuote(text, author) {
   const quoteTextEl = document.getElementById('quoteText');
   const quoteAuthorEl = document.getElementById('quoteAuthor');

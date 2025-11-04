@@ -645,3 +645,52 @@
   opacity: 1;
   visibility: visible;
 }
+
+/* ========================================= */
+/* ACTIVITY INFO BUTTON & MODAL */
+/* ========================================= */
+
+.activity-item {
+  /* Tambahkan 'position: relative' agar tombol bisa diposisikan */
+  position: relative;
+  /* Beri sedikit ruang ekstra di kanan untuk tombol */
+  padding-right: 3rem; 
+}
+
+.activity-info-btn {
+  position: absolute;
+  top: 50%;
+  right: 1rem;
+  transform: translateY(-50%);
+  
+  background: #e9ecef;
+  color: #495057;
+  border: none;
+  border-radius: 50%;
+  width: 1.75rem;
+  height: 1.75rem;
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.75rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.activity-info-btn:hover {
+  background: #ced4da;
+  color: #212529;
+}
+
+/* Sedikit style untuk body modal edukasi */
+.education-modal-body h4 {
+  color: #4CAF50;
+  font-weight: 600;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.education-modal-body p {
+  color: #495057;
+  white-space: pre-line; /* Menjaga baris baru jika ada */
+}

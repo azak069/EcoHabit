@@ -17,6 +17,16 @@ const activitySchema = new mongoose.Schema({
    default: 'Lainnya',
   trim: true
   },
+  description: {
+    type: String,
+    trim: true,
+    default: 'Deskripsi untuk aktivitas ini belum tersedia.'
+  },
+  howTo: {
+    type: String,
+    trim: true,
+    default: 'Tips untuk aktivitas ini belum tersedia.'
+  },
   // Faktor Dampak (Estimasi)
   impact_co2_kg: {
     type: Number,
