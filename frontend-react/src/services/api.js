@@ -1,5 +1,5 @@
 // src/services/api.js
-const API_BASE_URL = '/api'; // Menggunakan proxy di package.json
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Menggunakan proxy di package.json
 
 export function getToken() {
   return localStorage.getItem('ecohabit_token');
