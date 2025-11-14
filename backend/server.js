@@ -7,9 +7,7 @@ require('dotenv').config({ path: path.join(__dirname, '.env') });
 const app = express();
 
 // Middleware
-app.use(cors({
-  origin: process.env.FRONTEND_URL 
-}));
+app.use(cors());
 app.use(express.json());
 
 // Debug: Cek environment variables

@@ -5,13 +5,42 @@ import { authFetch } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import AuthCard from '../components/auth/AuthCard';
 
+// Definisikan komponen Spinner di sini atau import dari file terpisah
+const Spinner = () => <div className="spinner"></div>;
+
+const emailRegex = /\S+@\S+\.\S+/;
+
 function ForgotPasswordPage() {
   const [email, setEmail] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const [emailError, setEmailError] = useState('');
+
   const { showToast } = useToast();
+
+  const validateEmail = () => {
+    if (email.trim() === '') {
+      setEmailError('Email wajib diisi');
+      return false;
+    }
+    if (!emailRegex.test(email)) {
+      setEmailError('Email tidak valid');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    const isEmailValid = validateEmail();
+
+    if (!isEmailValid) {
+      showToast('Harap periksa kembali form Anda', 'error');
+      return;
+    }
+
     setIsLoading(true);
     try {
       const data = await authFetch('/auth/forgot', {
@@ -30,22 +59,29 @@ function ForgotPasswordPage() {
   return (
     <AuthCard subtitle="Reset Password">
       <form id="forgotForm" onSubmit={handleSubmit}>
+        
+        {/* Form Group Email dengan Floating Label */}
         <div className="form-group">
-          <label htmlFor="email" className="form-label">Email</label>
           <input 
             type="email" 
             id="email" 
             className="form-input" 
-            placeholder="email@example.com"
+            placeholder=" " /* <-- Wajib ada spasi */
             value={email}
             onChange={(e) => setEmail(e.target.value)} 
+            onBlur={validateEmail} 
             required 
           />
+          <label htmlFor="email" className="form-label">Email</label>
+          {emailError && <small className="form-error">{emailError}</small>}
         </div>
+        
+        {/* Tombol Submit dengan Spinner */}
         <button type="submit" className="btn" disabled={isLoading}>
-          {isLoading ? 'Mengirim...' : 'Kirim Link Reset'}
+          {isLoading ? <Spinner /> : 'Kirim Link Reset'}
         </button>
       </form>
+      
       <div className="auth-links text-center">
         <Link to="/login" className="auth-link">Kembali ke Login</Link>
       </div>

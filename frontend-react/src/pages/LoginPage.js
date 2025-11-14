@@ -4,20 +4,50 @@ import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import AuthCard from '../components/auth/AuthCard';
 
+// Definisikan komponen Spinner
+const Spinner = () => <div className="spinner"></div>;
+
+// Regex sederhana untuk validasi email
+const emailRegex = /\S+@\S+\.\S+/;
+
 function LoginPage() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  
+  // State untuk error inline
+  const [emailError, setEmailError] = useState('');
+  
   const { login, token } = useAuth();
+
+  // Validasi email saat keluar dari input
+  const validateEmail = () => {
+    if (email.trim() === '') {
+      setEmailError('Email wajib diisi');
+      return false;
+    }
+    if (!emailRegex.test(email)) {
+      setEmailError('Email tidak valid');
+      return false;
+    }
+    setEmailError('');
+    return true;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    
+    // Validasi ulang email sebelum submit
+    if (!validateEmail()) {
+      return; // Hentikan jika email tidak valid
+    }
+    
     setIsLoading(true);
-    await login(email, password);
+    await login(email, password); // useAuth akan menangani toast error/sukses
     setIsLoading(false);
   };
 
-  // Jika sudah login, redirect ke dashboard
   if (token) {
     return <Navigate to="/dashboard" />;
   }
@@ -25,34 +55,49 @@ function LoginPage() {
   return (
     <AuthCard subtitle="Login ke akun Anda">
       <form id="loginForm" onSubmit={handleSubmit}>
+        
+        {/* Form Group Email */}
         <div className="form-group">
-          <label htmlFor="email" className="form-label">Email</label>
           <input 
             type="email" 
             id="email" 
             className="form-input" 
-            placeholder="email@example.com" 
+            placeholder=" "
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            onBlur={validateEmail} // Validasi saat keluar
             required 
           />
+          <label htmlFor="email" className="form-label">Email</label>
+          {emailError && <small className="form-error">{emailError}</small>}
         </div>
+        
+        {/* Form Group Password */}
         <div className="form-group">
-          <label htmlFor="password" className="form-label">Password</label>
           <input 
-            type="password" 
+            type={showPassword ? 'text' : 'password'} 
             id="password" 
-            className="form-input" 
-            placeholder="Masukkan password" 
+            className="form-input input-password"
+            placeholder=" "
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required 
           />
+          <label htmlFor="password" className="form-label">Password</label>
+          <button 
+            type="button" 
+            className="password-toggle-btn"
+            onClick={() => setShowPassword(!showPassword)}
+          >
+            {showPassword ? 'Hide' : 'Show'}
+          </button>
         </div>
+        
         <button type="submit" className="btn" disabled={isLoading}>
-          {isLoading ? 'Logging in...' : 'Login'}
+          {isLoading ? <Spinner /> : 'Login'}
         </button>
       </form>
+      
       <div className="auth-links split">
         <Link to="/forgot" className="auth-link">Lupa Password?</Link>
         <span>Belum punya akun? <Link to="/register" className="auth-link">Daftar di sini</Link></span>
