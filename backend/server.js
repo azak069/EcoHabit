@@ -43,6 +43,7 @@ app.use('/api/quotes', require('./routes/quotes'));
 app.use('/api/activities', require('./routes/activities'));
 app.use('/api/users', require('./routes/users'));
 app.use('/api/ai', require('./routes/ai'));
+app.use('/api/upload', require('./routes/upload'));
 
 // API Default route
 app.get('/api', (req, res) => {
