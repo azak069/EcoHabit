@@ -244,7 +244,18 @@ function Header() {
               value={formData.currentPassword} 
               onChange={handleInputChange} 
               required 
+              placeholder="Masukkan password lama"
             />
+             {/* Tambahan Opsi Lupa Password */}
+             <div style={{ textAlign: 'right', marginTop: '5px' }}>
+              <a 
+                href="/forgot-password" 
+                className="text-sm text-primary" 
+                style={{ fontSize: '0.85rem', textDecoration: 'none', color: '#4CAF50' }}
+              >
+                Lupa password?
+              </a>
+            </div>
           </div>
           <div className="form-group">
             <label>Password Baru</label>
@@ -256,6 +267,7 @@ function Header() {
               onChange={handleInputChange} 
               required 
               minLength={6}
+              placeholder="Masukkan password baru"
             />
           </div>
           <button type="submit" className="btn btn-primary" disabled={isLoading}>
