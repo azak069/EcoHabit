@@ -102,11 +102,9 @@
   color: #4CAF50; /* Samakan dengan warna fokus */
 }
 
-/* Style untuk tombol toggle password */
 .password-toggle-btn {
   position: absolute;
   right: 0.5rem;
-  /* Sesuaikan 'top' agar sejajar dengan label saat naik */
   top: 50%; 
   transform: translateY(-50%);
   background: transparent;
@@ -116,16 +114,15 @@
   font-size: 0.8rem;
   font-weight: 600;
   padding: 0.5rem;
-  z-index: 2; /* Pastikan di atas input */
+  z-index: 2; 
 }
 
 .password-toggle-btn:hover {
   color: #4CAF50;
 }
 
-/* Beri ruang di input jika ada tombol toggle */
 .form-input.input-password {
-  padding-right: 4.5rem; /* Ruang untuk tombol "Show" / "Hide" */
+  padding-right: 4.5rem; 
 }
 
 
@@ -149,9 +146,9 @@
 }
 
 .btn {
-  display: flex; /* Menggunakan flex */
-  justify-content: center; /* Menengahkan konten (teks atau spinner) */
-  align-items: center; /* Menengahkan konten secara vertikal */
+  display: flex; 
+  justify-content: center; 
+  align-items: center; 
   width: 100%;
   padding: 0.875rem 1rem;
   font-size: 1rem;
@@ -164,8 +161,7 @@
   transition: all 0.3s ease;
   text-align: center;
   text-decoration: none;
-  /* Set tinggi minimum agar tombol tidak 'lompat' saat ganti teks/spinner */
-  min-height: calc(0.875rem * 2 + 1rem * 1.5 + 2px); /* padding + line-height + border (jika ada) */
+  min-height: calc(0.875rem * 2 + 1rem * 1.5 + 2px); 
 }
 
 .btn:hover {
