@@ -45,7 +45,8 @@ router.post('/register', async (req, res) => {
         name: user.name,
         email: user.email,
         totalPoints: user.totalPoints,
-        level: user.level
+        level: user.level,
+        profilePicture: user.profilePicture
       }
     });
   } catch (error) {
@@ -91,7 +92,8 @@ router.post('/login', async (req, res) => {
         name: user.name,
         email: user.email,
         totalPoints: user.totalPoints,
-        level: user.level
+        level: user.level,
+        profilePicture: user.profilePicture
       }
     });
   } catch (error) {
