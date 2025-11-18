@@ -460,6 +460,21 @@
   transition: background-color 0.2s ease, transform 0.2s ease;
 }
 
+.leaderboard-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;       /* Membuat foto bulat */
+  object-fit: cover;        /* Memastikan gambar tidak gepeng */
+  margin-right: 0.75rem;    /* Jarak antara foto dan teks */
+  border: 2px solid #fff;   /* Border putih agar rapi */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* --- Opsional: Penyesuaian Dark Mode --- */
+[data-theme="dark"] .leaderboard-avatar {
+  border-color: #444;
+}
+
 .leaderboard-item:hover {
   background-color: rgba(0, 0, 0, 0.03);
   transform: scale(1.02);

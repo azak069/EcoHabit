@@ -11,9 +11,18 @@ function Leaderboard({ users = [] }) {
             users.map((user, index) => (
               <li key={user._id} className="leaderboard-item">
                 <span className="leaderboard-rank">{index + 1}</span>
+                
+                {/* --- TAMBAHAN: Foto Profil --- */}
+                <img 
+                  src={user.profilePicture || `https://ui-avatars.com/api/?name=${user.name}&background=random`} 
+                  alt={user.name} 
+                  className="leaderboard-avatar"
+                />
+                {/* ----------------------------- */}
+
                 <div className="leaderboard-info">
                   <span className="leaderboard-name">{user.name}</span>
-                  <span className="leaderboard-points">{user.totalPoints} Poin ({user.level})</span>
+                  <span className="leaderboard-points">{user.totalPoints} Poin <br/> ({user.level})</span>
                 </div>
               </li>
             ))

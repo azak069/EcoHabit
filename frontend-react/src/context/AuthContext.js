@@ -1,107 +1,80 @@
 // src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
-import { authFetch, saveToken, saveUser, clearAuthStorage, getToken, getUser } from '../services/api';
-import { useToast } from '../hooks/useToast';
+import { saveToken, saveUser, clearAuthStorage, getUser, getToken } from '../services/api';
 
-const AuthContext = createContext(null);
+const AuthContext = createContext();
 
-export function AuthProvider({ children }) {
+export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [token, setToken] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  
-  // State untuk tema
-  const [theme, setTheme] = useState('light');
+  const [loading, setLoading] = useState(true);
+  const [theme, setTheme] = useState(localStorage.getItem('theme') || 'light');
 
-  const { showToast } = useToast();
-
+  // 1. Cek Login saat aplikasi dimuat (Initial Load)
   useEffect(() => {
-    const storedToken = getToken();
-    const storedUser = getUser();
-    const storedTheme = localStorage.getItem('ecohabit_theme') || 'light';
-    
-    if (storedToken && storedUser) {
-      setToken(storedToken);
-      setUser(storedUser);
-    }
-    
-    setTheme(storedTheme);
-    document.body.setAttribute('data-theme', storedTheme); // Terapkan tema ke body
-    
-    setIsLoading(false);
+    const initAuth = async () => {
+      const token = getToken();
+      const storedUser = getUser();
+
+      if (token && storedUser) {
+        setUser(storedUser); // Restore user dari localStorage
+      }
+      setLoading(false);
+    };
+    initAuth();
   }, []);
 
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    localStorage.setItem('ecohabit_theme', newTheme);
-    document.body.setAttribute('data-theme', newTheme);
+  // 2. Fungsi Login yang DIPERBAIKI
+  const login = (userData, token) => {
+    // Simpan ke LocalStorage
+    saveToken(token);
+    saveUser(userData);
+    
+    // UPDATE STATE LANGSUNG (Penting agar UI berubah tanpa refresh)
+    setUser(userData); 
   };
 
-  const login = async (email, password) => {
-    try {
-      const data = await authFetch('/auth/login', {
-        method: 'POST',
-        body: JSON.stringify({ email, password }),
-      });
-      setUser(data.user);
-      setToken(data.token);
-      saveToken(data.token);
-      saveUser(data.user);
-      showToast('Login berhasil!', 'success');
-      return true;
-    } catch (error) {
-      showToast(error.message, 'error');
-      return false;
-    }
-  };
-
-  const register = async (name, email, password) => {
-    try {
-      const data = await authFetch('/auth/register', {
-        method: 'POST',
-        body: JSON.stringify({ name, email, password }),
-      });
-      setUser(data.user);
-      setToken(data.token);
-      saveToken(data.token);
-      saveUser(data.user);
-      showToast('Registrasi berhasil!', 'success');
-      return true;
-    } catch (error) {
-      showToast(error.message, 'error');
-      return false;
-    }
-  };
-
+  // 3. Fungsi Logout
   const logout = () => {
     clearAuthStorage();
     setUser(null);
-    setToken(null);
-    window.location.href = '/login';
+    window.location.href = '/login'; // Redirect paksa untuk bersih-bersih state
   };
 
-  // Helper untuk update user state lokal setelah edit profil
-  const updateUserState = (userData) => {
-    // Merge data baru dengan data lama untuk mempertahankan field yang tidak berubah
-    const newUser = { ...user, ...userData };
-    setUser(newUser);
-    saveUser(newUser);
+  // 4. Update User State (misal setelah ganti foto/nama)
+  const updateUserState = (updatedData) => {
+    setUser((prevUser) => {
+      const newUser = { ...prevUser, ...updatedData };
+      saveUser(newUser); // Sinkronkan ke localStorage
+      return newUser;
+    });
   };
 
-  const value = {
-    user,
-    token,
-    isLoading,
-    theme,
-    toggleTheme,
-    updateUserState,
-    login,
-    register,
-    logout,
+  // Theme handler
+  const toggleTheme = () => {
+    const newTheme = theme === 'light' ? 'dark' : 'light';
+    setTheme(newTheme);
+    localStorage.setItem('theme', newTheme);
+    document.documentElement.setAttribute('data-theme', newTheme);
   };
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
+  // Apply theme on load
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+  }, [theme]);
+
+  return (
+    <AuthContext.Provider value={{ 
+      user, 
+      login, 
+      logout, 
+      loading, 
+      theme, 
+      toggleTheme,
+      updateUserState 
+    }}>
+      {!loading && children}
+    </AuthContext.Provider>
+  );
+};
 
 export default AuthContext;
