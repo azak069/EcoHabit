@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useState, useEffect } from 'react';
 import { authFetch, saveToken, saveUser, clearAuthStorage, getToken, getUser } from '../services/api';
 import { useToast } from '../hooks/useToast';
@@ -10,7 +9,6 @@ export function AuthProvider({ children }) {
   const [token, setToken] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   
-  // State untuk tema
   const [theme, setTheme] = useState('light');
 
   const { showToast } = useToast();
@@ -26,7 +24,7 @@ export function AuthProvider({ children }) {
     }
     
     setTheme(storedTheme);
-    document.body.setAttribute('data-theme', storedTheme); // Terapkan tema ke body
+    document.body.setAttribute('data-theme', storedTheme);
     
     setIsLoading(false);
   }, []);
@@ -81,9 +79,7 @@ export function AuthProvider({ children }) {
     window.location.href = '/login';
   };
 
-  // Helper untuk update user state lokal setelah edit profil
   const updateUserState = (userData) => {
-    // Merge data baru dengan data lama untuk mempertahankan field yang tidak berubah
     const newUser = { ...user, ...userData };
     setUser(newUser);
     saveUser(newUser);

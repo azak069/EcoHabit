@@ -1,4 +1,3 @@
-// src/components/dashboard/ActivityItem.js
 import React, { useState } from 'react';
 import Modal from '../common/Modal';
 
@@ -11,8 +10,6 @@ function ActivityItem({ activity, isCompleted, onComplete }) {
     
     setIsLoading(true);
     await onComplete(activity.name);
-    // isLoading di-reset oleh parent re-render, 
-    // tapi kita set false jika terjadi error & parent tidak re-render
     setIsLoading(false); 
   };
 
@@ -42,7 +39,6 @@ function ActivityItem({ activity, isCompleted, onComplete }) {
         </button>
       </div>
 
-      {/* Modal Edukasi */}
       <Modal 
         isOpen={isModalOpen} 
         onClose={() => setIsModalOpen(false)}

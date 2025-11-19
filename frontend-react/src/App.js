@@ -1,4 +1,3 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 
@@ -9,6 +8,7 @@ import { AuthProvider } from './context/AuthContext';
 import './assets/global.css';
 import './assets/auth.css';
 import './assets/dashboard.css';
+import './assets/header.css';
 
 // Komponen & Halaman
 import PrivateRoute from './components/auth/PrivateRoute';

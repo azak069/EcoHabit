@@ -2,7 +2,6 @@ const nodemailer = require('nodemailer');
 
 const sendEmail = async (to, subject, html) => {
   try {
-    // Create transporter (gunakan Gmail sebagai contoh)
     const transporter = nodemailer.createTransport({
       service: 'gmail',
       auth: {
@@ -11,7 +10,6 @@ const sendEmail = async (to, subject, html) => {
       }
     });
 
-    // Email options
     const mailOptions = {
       from: process.env.EMAIL_USER,
       to,
@@ -19,7 +17,6 @@ const sendEmail = async (to, subject, html) => {
       html
     };
 
-    // Send email
     await transporter.sendMail(mailOptions);
     console.log('Email sent successfully');
   } catch (error) {

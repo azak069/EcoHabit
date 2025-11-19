@@ -1,4 +1,3 @@
-// src/components/auth/AuthCard.js
 import React from 'react';
 
 function AuthCard({ title, subtitle, children }) {

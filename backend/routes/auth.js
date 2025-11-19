@@ -6,12 +6,15 @@ const sendEmail = require('../utils/sendEmail');
 
 const router = express.Router();
 
-// Register user
+/**
+ * @route   POST api/auth/register
+ * @desc    Register user baru
+ * @access  Public
+ */
 router.post('/register', async (req, res) => {
   try {
     const { name, email, password } = req.body;
 
-    // Validasi input
     if (!name || !email || !password) {
       return res.status(400).json({ message: 'Semua field harus diisi' });
     }
@@ -20,17 +23,14 @@ router.post('/register', async (req, res) => {
       return res.status(400).json({ message: 'Password minimal 6 karakter' });
     }
 
-    // Cek apakah user sudah ada
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({ message: 'User dengan email ini sudah terdaftar' });
     }
 
-    // Buat user baru
     const user = new User({ name, email, password });
     await user.save();
 
-    // Buat token JWT
     const token = jwt.sign(
       { userId: user._id }, 
       process.env.JWT_SECRET, 
@@ -55,29 +55,29 @@ router.post('/register', async (req, res) => {
   }
 });
 
-// Login user
+/**
+ * @route   POST api/auth/login
+ * @desc    Login user
+ * @access  Public
+ */
 router.post('/login', async (req, res) => {
   try {
     const { email, password } = req.body;
 
-    // Validasi input
     if (!email || !password) {
       return res.status(400).json({ message: 'Email dan password harus diisi' });
     }
 
-    // Cari user
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(400).json({ message: 'Email atau password salah' });
     }
 
-    // Cek password
     const isMatch = await user.comparePassword(password);
     if (!isMatch) {
       return res.status(400).json({ message: 'Email atau password salah' });
     }
 
-    // Buat token JWT
     const token = jwt.sign(
       { userId: user._id }, 
       process.env.JWT_SECRET, 
@@ -102,7 +102,11 @@ router.post('/login', async (req, res) => {
   }
 });
 
-// Forgot password
+/**
+ * @route   POST api/auth/forgot
+ * @desc    Kirim email reset password
+ * @access  Public
+ */
 router.post('/forgot', async (req, res) => {
   try {
     const { email } = req.body;
@@ -112,7 +116,6 @@ router.post('/forgot', async (req, res) => {
       return res.status(404).json({ message: 'User dengan email ini tidak ditemukan' });
     }
 
-    // Generate reset token
     const resetToken = crypto.randomBytes(32).toString('hex');
     user.resetPasswordToken = crypto
       .createHash('sha256')
@@ -122,7 +125,6 @@ router.post('/forgot', async (req, res) => {
 
     await user.save();
 
-    // Kirim email
     const resetUrl = `${process.env.FRONTEND_URL}/reset.html?token=${resetToken}`;
     const message = `
       <h2>Reset Password EcoHabit</h2>
@@ -142,7 +144,11 @@ router.post('/forgot', async (req, res) => {
   }
 });
 
-// Reset password
+/**
+ * @route   POST api/auth/reset/:token
+ * @desc    Reset password menggunakan token
+ * @access  Public
+ */
 router.post('/reset/:token', async (req, res) => {
   try {
     const { token } = req.params;

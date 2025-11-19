@@ -5,7 +5,6 @@ import { authFetch } from '../../services/api';
 function ImpactCard({ savings }) {
   const [analogies, setAnalogies] = useState(null);
 
-  // Komponen ini mem-fetch data analoginya sendiri
   useEffect(() => {
     if (!savings) return;
 
@@ -16,7 +15,7 @@ function ImpactCard({ savings }) {
     .then(setAnalogies)
     .catch(err => console.warn('Gagal memuat analogi AI:', err.message));
 
-  }, [savings]); // Re-fetch saat data savings berubah
+  }, [savings]); 
 
   return (
     <div className="card">

@@ -3,7 +3,11 @@ const Quote = require('../models/Quote');
 
 const router = express.Router();
 
-// Dapatkan quote random
+/**
+ * @route   GET api/quotes/random
+ * @desc    Dapatkan satu quote motivasi acak
+ * @access  Public
+ */
 router.get('/random', async (req, res) => {
   try {
     const count = await Quote.countDocuments();
@@ -27,7 +31,11 @@ router.get('/random', async (req, res) => {
   }
 });
 
-// Seed quotes (untuk development)
+/**
+ * @route   POST api/quotes/seed
+ * @desc    Seed database dengan quotes motivasi
+ * @access  Public
+ */
 router.post('/seed', async (req, res) => {
   try {
     const quotes = [

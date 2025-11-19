@@ -1,4 +1,3 @@
-// src/components/dashboard/ProgressChart.js
 import React from 'react';
 import { Line } from 'react-chartjs-2';
 import {
@@ -13,7 +12,6 @@ import {
   Filler,
 } from 'chart.js';
 
-// Registrasi komponen Chart.js
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -26,7 +24,6 @@ ChartJS.register(
 );
 
 function ProgressChart({ chartData = [] }) {
-  // Logic untuk 7 hari terakhir
   const last7Days = [];
   for (let i = 6; i >= 0; i--) {
     const date = new Date();

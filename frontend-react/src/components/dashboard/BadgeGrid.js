@@ -1,7 +1,5 @@
-// src/components/dashboard/BadgeGrid.js
 import React from 'react';
 
-// Konstanta lencana (ikon emoji dihapus karena akan diganti gambar)
 const allBadgesDefinition = {
   // Poin
   'POIN_1': { name: 'Poin-Pertama' },
@@ -22,7 +20,6 @@ const allBadgesDefinition = {
 function BadgeGrid({ userBadges = [] }) {
   return (
     <div className="card">
-      {/* Mengganti 🏆 dengan ikon Font Awesome fa-award */}
       <h2 className="card-title">
         <i className="fa-solid fa-award" style={{ color: '#FFD700', marginRight: '0.5rem' }}></i> 
         Lencana Saya
@@ -31,12 +28,10 @@ function BadgeGrid({ userBadges = [] }) {
         {Object.entries(allBadgesDefinition).map(([badgeId, badge]) => {
           const isUnlocked = userBadges.includes(badgeId);
           
-          // Membangun path gambar: /lencana/Nama Lencana.png
           const imagePath = `/lencana/${badge.name}.png`;
 
           return (
             <div key={badgeId} className={`badge-item ${isUnlocked ? 'unlocked' : ''}`}>
-              {/* Mengganti div badge-icon dengan tag img */}
               <img 
                 src={imagePath} 
                 alt={badge.name} 

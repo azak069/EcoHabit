@@ -1,4 +1,3 @@
-// src/components/dashboard/ActivityList.js
 import React, { useState } from 'react';
 import ActivityFilter from './ActivityFilter';
 import ActivityItem from './ActivityItem';
@@ -25,7 +24,6 @@ function ActivityList({ activities, todayProgress = [], onActivityCompleted }) {
       
       showToast(response.message, 'success');
       
-      // Tampilkan notifikasi lencana baru
       if (response.newBadges && response.newBadges.length > 0) {
         response.newBadges.forEach((badge, index) => {
           setTimeout(() => {
@@ -34,13 +32,12 @@ function ActivityList({ activities, todayProgress = [], onActivityCompleted }) {
         });
       }
       
-      // Panggil fungsi refresh data dari parent
       onActivityCompleted();
 
     } catch (error) {
       console.error('Error completing activity:', error);
       showToast(error.message || 'Gagal menyimpan aktivitas', 'error');
-      throw error; // Lempar error agar ActivityItem bisa stop loading
+      throw error;
     }
   };
 

@@ -1,57 +1,42 @@
-// src/components/dashboard/Header.js
 import React, { useState, useRef, useEffect, useContext } from 'react';
 import AuthContext from '../../context/AuthContext';
 import { useToast } from '../../hooks/useToast';
 import { authFetch, uploadToCatbox } from '../../services/api';
 import Modal from '../common/Modal';
 
-// Pastikan file CSS ini ada (seperti yang dibuat sebelumnya)
-import '../../assets/header.css'; 
-
-// Fungsi pembantu untuk membuat ikon Font Awesome
 const FaIcon = ({ iconName, style = {} }) => (
-  // START PERBAIKAN ALIGNMENT VERTICAL: Gunakan span wrapper dengan flexbox
   <span 
     className="fa-icon-wrapper" 
     style={{
-      width: '1.25rem', // Ukuran yang konsisten
+      width: '1.25rem',
       height: '1.25rem',
       display: 'inline-flex',
       alignItems: 'center',
       justifyContent: 'center',
       marginRight: '0.75rem',
-      verticalAlign: 'middle', // Fallback alignment
+      verticalAlign: 'middle',
       ...style
     }}
   >
     <i className={`fa-solid ${iconName}`}></i>
   </span>
-  // END PERBAIKAN ALIGNMENT VERTICAL
 );
 
 function Header() {
   const { user, logout, theme, toggleTheme, updateUserState } = useContext(AuthContext);
   const { showToast } = useToast();
   
-  // State untuk Dropdown
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [activeSubmenu, setActiveSubmenu] = useState(null);
-
-  // State untuk Modal (termasuk 'logout')
   const [activeModal, setActiveModal] = useState(null); 
   const [isLoading, setIsLoading] = useState(false);
-
-  // Form States
   const [formData, setFormData] = useState({
     currentPassword: '',
     newPassword: '',
     newName: '',
     newEmail: '',
   });
-
   const dropdownRef = useRef(null);
-
-  // Tutup dropdown jika klik di luar
   useEffect(() => {
     function handleClickOutside(event) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
@@ -67,7 +52,6 @@ function Header() {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // Reset form saat modal dibuka
   const openModal = (type) => {
     setActiveModal(type);
     setFormData({
@@ -84,7 +68,6 @@ function Header() {
     setIsLoading(false);
   };
 
-  // --- LOGIKA AVATAR ---
   const getAvatarSrc = () => {
     if (user && user.profilePicture) {
       return user.profilePicture;
@@ -103,7 +86,6 @@ function Header() {
 
   const avatarSrc = getAvatarSrc();
 
-  // --- HANDLERS ---
   const handleConfirmLogout = () => {
     logout(); 
     closeModal();
@@ -182,46 +164,43 @@ function Header() {
       <div className="container">
         <div className="header-content">
           <div className="logo">
-            <img 
-              src="/favicon/logo.png" 
-              alt="EcoHabit Logo" 
-              className="header-logo-img" 
-            />
+            <img src="/favicon/logo.png" alt="EcoHabit Logo" className="header-logo-img" />
             <span>EcoHabit</span>
           </div>
-          
+
           <div className="user-menu" ref={dropdownRef}>
             <div className="user-trigger" onClick={() => setIsDropdownOpen(!isDropdownOpen)}>
-              <span className="user-name-display">Halo, {user?.name || 'Pengguna'}</span> 
+              <span className="user-name-display">Halo, {user?.name || 'Pengguna'}</span>
               <img src={avatarSrc} alt="Profile" className="profile-pic" />
             </div>
 
             {isDropdownOpen && (
               <div className="dropdown-menu">
-                {/* MENU UTAMA */}
                 {activeSubmenu !== 'settings' && (
                   <>
-                    {/* Menggunakan has-submenu untuk item Pengaturan agar panah tetap di kanan */}
                     <div className="dropdown-item has-submenu" onClick={() => setActiveSubmenu('settings')}>
                       <FaIcon iconName="fa-gear" /> Pengaturan <i className="fa-solid fa-chevron-right fa-arrow-right-custom"></i>
                     </div>
                     <div className="dropdown-item" onClick={toggleTheme}>
-                      {theme === 'light' ? 
-                        <><FaIcon iconName="fa-moon" /> Mode Gelap</> : 
-                        <><FaIcon iconName="fa-sun" style={{ color: '#FFD700' }} /> Mode Terang</>}
+                      {theme === 'light' ? (
+                        <>
+                          <FaIcon iconName="fa-moon" /> Mode Gelap
+                        </>
+                      ) : (
+                        <>
+                          <FaIcon iconName="fa-sun" style={{ color: '#FFD700' }} /> Mode Terang
+                        </>
+                      )}
                     </div>
                     <div className="dropdown-divider"></div>
-                    {/* Memicu Modal Konfirmasi Logout */}
                     <div className="dropdown-item danger" onClick={() => openModal('logout')}>
                       <FaIcon iconName="fa-right-from-bracket" /> Logout
                     </div>
                   </>
                 )}
 
-                {/* SUBMENU PENGATURAN */}
                 {activeSubmenu === 'settings' && (
-                  // WRAPPER ANIMASI
-                  <div className="submenu-slide"> 
+                  <div className="submenu-slide">
                     <div className="dropdown-header" onClick={() => setActiveSubmenu(null)}>
                       <i className="fa-solid fa-chevron-left" style={{ marginRight: '0.5rem', verticalAlign: 'middle' }}></i> Kembali
                     </div>
@@ -245,9 +224,6 @@ function Header() {
         </div>
       </div>
 
-      {/* --- MODALS --- */}
-      
-      {/* Modal Ganti Nama */}
       <Modal isOpen={activeModal === 'name'} onClose={closeModal} title="Ganti Nama">
         <form onSubmit={handleUpdateProfile}>
           <div className="form-group">
@@ -260,7 +236,6 @@ function Header() {
         </form>
       </Modal>
 
-      {/* Modal Ganti Email */}
       <Modal isOpen={activeModal === 'email'} onClose={closeModal} title="Ganti Email">
         <form onSubmit={handleUpdateProfile}>
           <div className="form-group">
@@ -273,13 +248,12 @@ function Header() {
         </form>
       </Modal>
 
-      {/* Modal Ganti Password */}
       <Modal isOpen={activeModal === 'password'} onClose={closeModal} title="Ganti Password">
         <form onSubmit={handleChangePassword}>
           <div className="form-group">
             <label>Password Saat Ini</label>
             <input type="password" name="currentPassword" className="form-input" value={formData.currentPassword} onChange={handleInputChange} required placeholder="Masukkan password lama" />
-             <div className="forgot-password-wrapper">
+            <div className="forgot-password-wrapper">
               <a href="/forgot-password" className="forgot-password-link">Lupa password?</a>
             </div>
           </div>
@@ -293,39 +267,30 @@ function Header() {
         </form>
       </Modal>
 
-      {/* Modal Ganti Foto (Dengan Tombol Simetris) */}
       <Modal isOpen={activeModal === 'photo'} onClose={closeModal} title="Ganti Foto Profil">
         <div className="upload-modal-container">
           <img src={avatarSrc} alt="Preview" className="profile-preview-img" />
-          
+
           <p style={{marginBottom: '1rem', fontWeight: '500'}}>
             Pilih foto baru (JPG/PNG)
           </p>
 
           <input type="file" accept="image/*" onChange={handlePhotoUpload} style={{display: 'none'}} id="photo-upload" />
-          
-          {/* Class 'file-upload-btn' diambil dari header.css untuk style simetris */}
+
           <label htmlFor="photo-upload" className={`btn btn-primary file-upload-btn ${isLoading ? 'loading' : ''}`}>
             {isLoading ? 'Mengupload...' : 'Pilih File'}
           </label>
-          
+
           <p className="upload-helper-text">Powered by Catbox.moe</p>
         </div>
       </Modal>
 
-      {/* Modal Konfirmasi Logout */}
       <Modal isOpen={activeModal === 'logout'} onClose={closeModal} title="Konfirmasi Logout">
         <div className="text-center">
-          <p className="logout-confirmation-text">
-            Apakah Anda yakin ingin keluar dari aplikasi?
-          </p>
+          <p className="logout-confirmation-text">Apakah Anda yakin ingin keluar dari aplikasi?</p>
           <div className="modal-actions">
-            <button onClick={closeModal} className="btn btn-secondary">
-              Batal
-            </button>
-            <button onClick={handleConfirmLogout} className="btn btn-danger">
-              Ya, Keluar
-            </button>
+            <button onClick={closeModal} className="btn btn-secondary">Batal</button>
+            <button onClick={handleConfirmLogout} className="btn btn-danger">Ya, Keluar</button>
           </div>
         </div>
       </Modal>

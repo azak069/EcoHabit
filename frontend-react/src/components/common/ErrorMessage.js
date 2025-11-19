@@ -1,7 +1,5 @@
-// src/components/common/ErrorMessage.js
 import React from 'react';
 
-// Ini adalah HTML dari #errorState di dashboard.html
 function ErrorMessage({ message, onRetry }) {
   return (
     <main className="dashboard-main">

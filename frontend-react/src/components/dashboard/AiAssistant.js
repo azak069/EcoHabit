@@ -1,8 +1,6 @@
-// src/components/dashboard/AiAssistant.js
 import React, { useState } from 'react';
 import { authFetch } from '../../services/api';
 
-// Helper dari dashboard.js
 function formatAIResponse(text) {
   let html = text
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')

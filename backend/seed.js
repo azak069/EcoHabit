@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Quote = require('./models/Quote');
-const Activity = require('./models/Activity'); // <-- 1. IMPORT
+const Activity = require('./models/Activity'); 
 require('dotenv').config();
 
 const seedQuotes = [
@@ -34,7 +34,6 @@ const seedQuotes = [
   }
 ];
 
-// 2. BUAT ARRAY AKTIVITAS (berdasarkan Langkah 1)
 const seedActivities = [
   // Kategori: Konsumsi
   {

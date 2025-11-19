@@ -24,7 +24,6 @@ const progressSchema = new mongoose.Schema({
   timestamps: true
 });
 
-// Index untuk performa query
 progressSchema.index({ user: 1, date: 1 });
 
 module.exports = mongoose.model('Progress', progressSchema);

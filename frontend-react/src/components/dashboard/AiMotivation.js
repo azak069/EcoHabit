@@ -1,4 +1,3 @@
-// src/components/dashboard/AiMotivation.js
 import React, { useState, useEffect } from 'react';
 import { authFetch } from '../../services/api';
 
@@ -16,17 +15,13 @@ function AiMotivation({ userName, userLevel }) {
       body: JSON.stringify({ name: userName, level: userLevel })
     })
     .then(data => {
-    // --- TAMBAHKAN BLOK INI ---
-    // 1. Ganti semua baris baru (\n) dengan spasi
-    // 2. Hapus spasi berlebih di awal atau akhir
+    
     const cleanedText = data.text.replace(/\s+/g, ' ').trim();
 
-    // Simpan data yang sudah bersih
     setQuote({ 
       text: cleanedText, 
       author: data.author 
     });
-    // -------------------------
   })
     .catch(err => {
       console.warn('Gagal memuat motivasi AI:', err.message);

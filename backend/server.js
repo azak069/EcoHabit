@@ -10,12 +10,6 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// Debug: Cek environment variables
-console.log('MONGODB_URI:', process.env.MONGODB_URI);
-console.log('JWT_SECRET:', process.env.JWT_SECRET ? '***' : 'undefined');
-console.log('PORT:', process.env.PORT);
-
-// Koneksi ke MongoDB dengan fallback
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/ecohabit';
 
 mongoose.connect(MONGODB_URI, {
@@ -27,7 +21,6 @@ mongoose.connect(MONGODB_URI, {
   console.error('❌ Koneksi MongoDB gagal:', err.message);
   console.log('📝 Menggunakan MongoDB lokal...');
   
-  // Coba koneksi ke MongoDB lokal
   mongoose.connect('mongodb://localhost:27017/ecohabit', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
@@ -45,7 +38,11 @@ app.use('/api/users', require('./routes/users'));
 app.use('/api/ai', require('./routes/ai'));
 app.use('/api/upload', require('./routes/upload'));
 
-// API Default route
+/**
+ * @route   GET api
+ * @desc    Cek apakah API berjalan
+ * @access  Public
+ */
 app.get('/api', (req, res) => {
   res.json({ 
     message: 'EcoHabit API berjalan!',
@@ -53,7 +50,11 @@ app.get('/api', (req, res) => {
   });
 });
 
-// Health check
+/**
+ * @route   GET api/health
+ * @desc    Cek status kesehatan server dan database
+ * @access  Public
+ */
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',

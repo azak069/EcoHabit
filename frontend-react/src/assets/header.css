@@ -1,22 +1,18 @@
-/* frontend-react/src/assets/header.css */
-
 .logo {
   display: flex;
   align-items: center;
-  gap: 10px; /* Jarak antara logo dan tulisan */
+  gap: 10px; 
   font-weight: bold;
-  font-size: 1.5rem; /* Sesuaikan ukuran font teks */
-  color: #4CAF50; /* Warna teks hijau EcoHabit */
+  font-size: 1.5rem; 
+  color: #4CAF50; 
 }
 
-/* Atur ukuran gambar logo */
 .header-logo-img {
-  width: 45px;  /* Sesuaikan lebar logo */
-  height: 45px; /* Sesuaikan tinggi logo */
+  width: 45px; 
+  height: 45px; 
   object-fit: contain;
 }
 
-/* --- Styling Preview Foto Profil --- */
 .upload-modal-container {
   display: flex;
   flex-direction: column;
@@ -36,14 +32,13 @@
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* --- PERBAIKAN TOMBOL PILIH FILE --- */
 .file-upload-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   width: 100%;
-  max-width: 220px; /* Membatasi lebar agar tidak terlalu panjang */
-  margin: 0 auto;   /* Memastikan posisi tengah (center) */
+  max-width: 220px; 
+  margin: 0 auto; 
   padding: 0.6rem 1.5rem;
   cursor: pointer;
   text-align: center;
@@ -51,20 +46,17 @@
   transition: all 0.3s ease;
 }
 
-/* State saat loading */
 .file-upload-btn.loading {
   cursor: wait;
   opacity: 0.7;
 }
 
-/* Teks Helper kecil di bawah tombol */
 .upload-helper-text {
   font-size: 0.85rem;
   margin-top: 1rem;
   color: #6c757d;
 }
 
-/* Link Lupa Password */
 .forgot-password-link {
   font-size: 0.85rem;
   text-decoration: none;
@@ -82,9 +74,6 @@
   margin-top: 5px;
 }
 
-/* ... css sebelumnya ... */
-
-/* --- MODAL LOGOUT --- */
 .logout-confirmation-text {
   margin-bottom: 1.5rem;
   color: #4a5568;

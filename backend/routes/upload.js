@@ -5,23 +5,23 @@ const axios = require('axios');
 const FormData = require('form-data');
 const auth = require('../middleware/auth');
 
-// Konfigurasi Multer (Simpan di memori sementara)
 const storage = multer.memoryStorage();
 const upload = multer({ 
   storage: storage,
   limits: { fileSize: 10 * 1024 * 1024 } // Batas 10MB
 });
 
-// @route   POST api/upload/catbox
-// @desc    Proxy upload ke Catbox
-// @access  Private
+/**
+ * @route   POST api/upload/catbox
+ * @desc    Upload gambar ke Catbox melalui proxy server
+ * @access  Private
+ */
 router.post('/catbox', auth, upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: 'Tidak ada file yang diupload' });
     }
 
-    // Siapkan FormData untuk dikirim ke Catbox
     const formData = new FormData();
     formData.append('reqtype', 'fileupload');
     formData.append('fileToUpload', req.file.buffer, {
@@ -29,14 +29,12 @@ router.post('/catbox', auth, upload.single('file'), async (req, res) => {
       contentType: req.file.mimetype
     });
 
-    // Kirim request Server-to-Server (Bypass CORS)
     const response = await axios.post('https://catbox.moe/user/api.php', formData, {
       headers: {
         ...formData.getHeaders()
       }
     });
 
-    // Catbox mengembalikan URL sebagai text body jika sukses
     if (response.status === 200) {
         res.json({ url: response.data });
     } else {

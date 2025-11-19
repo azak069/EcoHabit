@@ -1,7 +1,5 @@
-// src/components/common/LoadingSkeleton.js
 import React from 'react';
 
-// Ini adalah HTML dari #loadingState di dashboard.html
 function LoadingSkeleton() {
   return (
     <main className="dashboard-main">

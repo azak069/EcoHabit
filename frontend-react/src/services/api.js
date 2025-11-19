@@ -1,5 +1,4 @@
-// src/services/api.js
-const API_BASE_URL = process.env.REACT_APP_API_BASE_URL; // Menggunakan proxy di package.json
+const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
 
 export function getToken() {
   return localStorage.getItem('ecohabit_token');
@@ -32,17 +31,13 @@ export function clearAuthStorage() {
 export async function uploadToCatbox(file) {
   const token = getToken();
   const formData = new FormData();
-  // Nama field harus 'file' sesuai dengan upload.single('file') di backend
   formData.append('file', file); 
 
   try {
-    // Kita tidak menggunakan authFetch karena kita perlu membiarkan browser
-    // mengatur Content-Type menjadi multipart/form-data secara otomatis.
     const response = await fetch(`${API_BASE_URL}/upload/catbox`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${token}`
-        // JANGAN set 'Content-Type' secara manual!
       },
       body: formData,
     });
@@ -53,7 +48,7 @@ export async function uploadToCatbox(file) {
     }
 
     const data = await response.json();
-    return data.url; // Mengembalikan URL gambar dari backend
+    return data.url;
   } catch (error) {
     console.error('Upload Error:', error);
     throw error;
@@ -62,7 +57,7 @@ export async function uploadToCatbox(file) {
 
 /**
  * Fungsi fetch terautentikasi
- * @param {string} url - URL API (tanpa /api)
+ * @param {string} url - URL Endpoint API
  * @param {object} options - Opsi fetch (method, body, etc.)
  */
 export async function authFetch(url, options = {}) {
@@ -79,7 +74,6 @@ export async function authFetch(url, options = {}) {
   try {
     const response = await fetch(`${API_BASE_URL}${url}`, { ...options, headers });
 
-    // Handle 204 No Content
     if (response.status === 204) {
       return true;
     }
@@ -87,7 +81,6 @@ export async function authFetch(url, options = {}) {
     const data = await response.json();
 
     if (!response.ok) {
-      // Jika token expired/invalid, auto-logout
       if (response.status === 401 && url !== '/auth/login') {
          clearAuthStorage();
          window.location.href = '/login';
@@ -98,6 +91,6 @@ export async function authFetch(url, options = {}) {
     return data;
   } catch (error) {
     console.error('API Fetch Error:', error);
-    throw error; // Lempar ulang error agar bisa ditangkap oleh komponen
+    throw error;
   }
 }

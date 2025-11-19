@@ -1,4 +1,3 @@
-// src/components/dashboard/ActivityFilter.js
 import React from 'react';
 
 const FILTERS = ['Semua', 'Rumah', 'Konsumsi', 'Transportasi', 'Lainnya'];

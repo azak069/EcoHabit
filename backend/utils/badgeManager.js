@@ -6,7 +6,6 @@ const badgeDefinitions = {
   POIN_500: { name: 'Master Poin', description: 'Mencapai total 500 poin.' },
 
   // Lencana Level
-  // Menghapus emoji dari deskripsi
   LEVEL_EXPLORER: { name: 'Eco Explorer', description: 'Mencapai level Eco Explorer.' },
   LEVEL_HERO: { name: 'Planet Hero', description: 'Mencapai level Planet Hero.' },
 
@@ -40,7 +39,6 @@ function checkAndAwardBadges(user) {
   if (user.totalPoints >= 500) addBadge('POIN_500');
 
   // --- Cek Lencana Level ---
-  // Menghapus emoji dari string perbandingan
   if (user.level === 'Eco Explorer') addBadge('LEVEL_EXPLORER');
   if (user.level === 'Planet Hero') addBadge('LEVEL_HERO');
 
@@ -55,5 +53,4 @@ function checkAndAwardBadges(user) {
   return newBadges;
 }
 
-// Export definisi lencana agar bisa digunakan frontend
 module.exports = { checkAndAwardBadges, badgeDefinitions };

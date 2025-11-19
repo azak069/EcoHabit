@@ -1,11 +1,9 @@
-// src/pages/ForgotPasswordPage.js
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { authFetch } from '../services/api';
 import { useToast } from '../hooks/useToast';
 import AuthCard from '../components/auth/AuthCard';
 
-// Definisikan komponen Spinner di sini atau import dari file terpisah
 const Spinner = () => <div className="spinner"></div>;
 
 const emailRegex = /\S+@\S+\.\S+/;
@@ -60,13 +58,12 @@ function ForgotPasswordPage() {
     <AuthCard subtitle="Reset Password">
       <form id="forgotForm" onSubmit={handleSubmit}>
         
-        {/* Form Group Email dengan Floating Label */}
         <div className="form-group">
           <input 
             type="email" 
             id="email" 
             className="form-input" 
-            placeholder=" " /* <-- Wajib ada spasi */
+            placeholder=" " 
             value={email}
             onChange={(e) => setEmail(e.target.value)} 
             onBlur={validateEmail} 
@@ -76,7 +73,6 @@ function ForgotPasswordPage() {
           {emailError && <small className="form-error">{emailError}</small>}
         </div>
         
-        {/* Tombol Submit dengan Spinner */}
         <button type="submit" className="btn" disabled={isLoading}>
           {isLoading ? <Spinner /> : 'Kirim Link Reset'}
         </button>

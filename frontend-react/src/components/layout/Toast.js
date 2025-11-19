@@ -1,13 +1,10 @@
-// src/components/layout/Toast.js
 import React, { useState, useEffect } from 'react';
 
 function Toast({ message, type, onRemove }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    // Tampilkan toast
     const showTimer = setTimeout(() => setIsVisible(true), 100);
-    // Sembunyikan toast (sebelum remove)
     const hideTimer = setTimeout(() => setIsVisible(false), 2800);
 
     return () => {

@@ -27,7 +27,6 @@ const activitySchema = new mongoose.Schema({
     trim: true,
     default: 'Tips untuk aktivitas ini belum tersedia.'
   },
-  // Faktor Dampak (Estimasi)
   impact_co2_kg: {
     type: Number,
     default: 0

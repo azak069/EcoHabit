@@ -1,4 +1,3 @@
-// src/components/layout/ToastContainer.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 import Toast from './Toast';

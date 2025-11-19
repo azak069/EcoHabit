@@ -1,10 +1,9 @@
-// src/pages/DashboardPage.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { authFetch } from '../services/api';
 import { useAuth } from '../hooks/useAuth';
 import { useToast } from '../hooks/useToast';
 
-// Import semua komponen "dumb"
+// Import semua komponen
 import Header from '../components/dashboard/Header';
 import LevelCard from '../components/dashboard/LevelCard';
 import ImpactCard from '../components/dashboard/ImpactCard';
@@ -27,12 +26,10 @@ function DashboardPage() {
   const [error, setError] = useState(null);
   const [isLogoutModalOpen, setIsLogoutModalOpen] = useState(false);
 
-  // Fungsi untuk memuat semua data
   const loadDashboardData = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
-      // Sama seperti di dashboard.js
       const [progress, activities, savings, leaderboard] = await Promise.all([
         authFetch('/progress'),
         authFetch('/activities'),
@@ -47,26 +44,23 @@ function DashboardPage() {
     } finally {
       setIsLoading(false);
     }
-  }, [showToast]); // Tambahkan showToast sebagai dependency
+  }, [showToast]); 
 
-  // Memuat data saat komponen pertama kali render
   useEffect(() => {
     loadDashboardData();
   }, [loadDashboardData]);
 
-  // Handler untuk refresh data (dipicu oleh ActivityList)
   const refreshImpactAndProgress = async () => {
      try {
-      // Hanya fetch data yang berubah
       const [progress, savings] = await Promise.all([
         authFetch('/progress'),
         authFetch('/progress/savings'),
       ]);
-      // Update state dashboard
+  
       setDashboardData(prev => ({ 
         ...prev, 
-        progress, // progress baru
-        savings,  // savings baru
+        progress, 
+        savings,  
       }));
     } catch (err) {
       console.error("Gagal refresh data", err);
@@ -74,7 +68,6 @@ function DashboardPage() {
     }
   }
 
-  // Tampilkan loading skeleton
   if (isLoading && !dashboardData) {
     return (
       <>
@@ -84,7 +77,6 @@ function DashboardPage() {
     );
   }
 
-  // Tampilkan error
   if (error) {
     return (
       <>
@@ -94,8 +86,6 @@ function DashboardPage() {
     );
   }
 
-  // Jika data ada, render dashboard
-  // Kita tambahkan cek `dashboardData` untuk menghindari error render
   if (!dashboardData) {
      return <Header userName={user?.name} onLogoutClick={() => setIsLogoutModalOpen(true)} />;
   }
@@ -125,7 +115,7 @@ function DashboardPage() {
               <ActivityList 
                 activities={activities} 
                 todayProgress={progress.todayProgress}
-                onActivityCompleted={refreshImpactAndProgress} // Kirim handler
+                onActivityCompleted={refreshImpactAndProgress} 
               />
               <ProgressChart chartData={progress.chartData} />
             </section>
@@ -133,7 +123,6 @@ function DashboardPage() {
         </div>
       </main>
 
-      {/* Modal Logout */}
       <Modal 
         isOpen={isLogoutModalOpen} 
         onClose={() => setIsLogoutModalOpen(false)}

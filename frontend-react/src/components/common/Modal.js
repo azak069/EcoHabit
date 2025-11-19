@@ -1,4 +1,3 @@
-// src/components/common/Modal.js
 import React from 'react';
 import ReactDOM from 'react-dom';
 

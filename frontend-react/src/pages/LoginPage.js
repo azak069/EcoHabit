@@ -1,13 +1,10 @@
-// src/pages/LoginPage.js
 import React, { useState } from 'react';
 import { Link, Navigate } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import AuthCard from '../components/auth/AuthCard';
 
-// Definisikan komponen Spinner
 const Spinner = () => <div className="spinner"></div>;
 
-// Regex sederhana untuk validasi email
 const emailRegex = /\S+@\S+\.\S+/;
 
 function LoginPage() {
@@ -16,12 +13,10 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   
-  // State untuk error inline
   const [emailError, setEmailError] = useState('');
   
   const { login, token } = useAuth();
 
-  // Validasi email saat keluar dari input
   const validateEmail = () => {
     if (email.trim() === '') {
       setEmailError('Email wajib diisi');
@@ -37,14 +32,13 @@ function LoginPage() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    // Validasi ulang email sebelum submit
+ 
     if (!validateEmail()) {
-      return; // Hentikan jika email tidak valid
+      return; 
     }
     
     setIsLoading(true);
-    await login(email, password); // useAuth akan menangani toast error/sukses
+    await login(email, password); 
     setIsLoading(false);
   };
 
@@ -56,7 +50,6 @@ function LoginPage() {
     <AuthCard subtitle="Login ke akun Anda">
       <form id="loginForm" onSubmit={handleSubmit}>
         
-        {/* Form Group Email */}
         <div className="form-group">
           <input 
             type="email" 
@@ -65,14 +58,13 @@ function LoginPage() {
             placeholder=" "
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            onBlur={validateEmail} // Validasi saat keluar
+            onBlur={validateEmail} 
             required 
           />
           <label htmlFor="email" className="form-label">Email</label>
           {emailError && <small className="form-error">{emailError}</small>}
         </div>
-        
-        {/* Form Group Password */}
+
         <div className="form-group">
           <input 
             type={showPassword ? 'text' : 'password'} 

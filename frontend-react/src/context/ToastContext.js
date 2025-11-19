@@ -1,4 +1,3 @@
-// src/context/ToastContext.js
 import React, { createContext, useState, useCallback } from 'react';
 import ToastContainer from '../components/layout/ToastContainer';
 
@@ -11,7 +10,6 @@ export function ToastProvider({ children }) {
     const id = Date.now() + Math.random();
     setToasts((prevToasts) => [...prevToasts, { id, message, type }]);
     
-    // Auto-remove toast
     setTimeout(() => {
       setToasts((prev) => prev.filter(t => t.id !== id));
     }, 3000);
