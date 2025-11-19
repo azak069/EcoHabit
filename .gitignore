@@ -1,4 +1,6 @@
-frontend-react/node_modules/
-frontend-react/package-lock.json
+frontend/.env
+frontend/node_modules/
+frontend/package-lock.json
+backend/.env
 backend/node_modules/
 backend/package-lock.json

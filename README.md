@@ -1,12 +1,18 @@
+# EcoHabit API Documentation
+
+Dokumentasi ini menjelaskan semua endpoint yang tersedia untuk aplikasi EcoHabit.
+
+---
+
 ## 🩺 Health Check
 
 Endpoint ini digunakan untuk memverifikasi status server dan koneksi database.
 
 ### `GET /api/health`
 
-  * **Deskripsi:** Memeriksa status server dan koneksi database.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Memeriksa status server dan koneksi database.
+* **Autentikasi:** Tidak diperlukan.
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "status": "OK",
@@ -15,7 +21,7 @@ Endpoint ini digunakan untuk memverifikasi status server dan koneksi database.
     }
     ```
 
------
+---
 
 ## 🔐 Autentikasi (`/api/auth`)
 
@@ -23,9 +29,9 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
 
 ### `POST /api/auth/register`
 
-  * **Deskripsi:** Mendaftarkan pengguna baru.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Request Body (Input):**
+* **Deskripsi:** Mendaftarkan pengguna baru.
+* **Autentikasi:** Tidak diperlukan.
+* **Request Body (Input):**
     ```json
     {
       "name": "Pengguna Baru",
@@ -33,7 +39,7 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
       "password": "password123"
     }
     ```
-  * **Contoh Output (Sukses 201):**
+* **Contoh Output (Sukses 201):**
     ```json
     {
       "message": "User berhasil dibuat",
@@ -43,11 +49,11 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
         "name": "Pengguna Baru",
         "email": "user@example.com",
         "totalPoints": 0,
-        "level": "🌱 Green Starter"
+        "level": "Green Starter"
       }
     }
     ```
-  * **Contoh Output (Error 400):**
+* **Contoh Output (Error 400):**
     ```json
     {
       "message": "User dengan email ini sudah terdaftar"
@@ -56,16 +62,16 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
 
 ### `POST /api/auth/login`
 
-  * **Deskripsi:** Melakukan login pengguna.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Request Body (Input):**
+* **Deskripsi:** Melakukan login pengguna.
+* **Autentikasi:** Tidak diperlukan.
+* **Request Body (Input):**
     ```json
     {
       "email": "user@example.com",
       "password": "password123"
     }
     ```
-  * **Contoh Output (Sukses 200):**
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "message": "Login berhasil",
@@ -75,11 +81,11 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
         "name": "Pengguna Baru",
         "email": "user@example.com",
         "totalPoints": 50,
-        "level": "🌱 Green Starter"
+        "level": "Green Starter"
       }
     }
     ```
-  * **Contoh Output (Error 400):**
+* **Contoh Output (Error 400):**
     ```json
     {
       "message": "Email atau password salah"
@@ -88,21 +94,21 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
 
 ### `POST /api/auth/forgot`
 
-  * **Deskripsi:** Meminta link reset password melalui email.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Request Body (Input):**
+* **Deskripsi:** Meminta link reset password melalui email.
+* **Autentikasi:** Tidak diperlukan.
+* **Request Body (Input):**
     ```json
     {
       "email": "user@example.com"
     }
     ```
-  * **Contoh Output (Sukses 200):**
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "message": "Email reset password telah dikirim"
     }
     ```
-  * **Contoh Output (Error 404):**
+* **Contoh Output (Error 404):**
     ```json
     {
       "message": "User dengan email ini tidak ditemukan"
@@ -111,28 +117,28 @@ Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
 
 ### `POST /api/auth/reset/:token`
 
-  * **Deskripsi:** Mereset password pengguna menggunakan token dari email.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Request Body (Input):**
+* **Deskripsi:** Mereset password pengguna menggunakan token dari email.
+* **Autentikasi:** Tidak diperlukan.
+* **Request Body (Input):**
     ```json
     {
       "password": "passwordbaru123"
     }
     ```
-  * **Contoh Output (Sukses 200):**
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "message": "Password berhasil direset"
     }
     ```
-  * **Contoh Output (Error 400):**
+* **Contoh Output (Error 400):**
     ```json
     {
       "message": "Token tidak valid atau sudah kadaluarsa"
     }
     ```
 
------
+---
 
 ## 🏃 Aktivitas (`/api/activities`)
 
@@ -140,9 +146,9 @@ Endpoint ini mengelola daftar aktivitas ramah lingkungan yang tersedia.
 
 ### `GET /api/activities`
 
-  * **Deskripsi:** Mendapatkan semua daftar aktivitas yang tersedia.
-  * **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Mendapatkan semua daftar aktivitas yang tersedia.
+* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
+* **Contoh Output (Sukses 200):**
     ```json
     [
       {
@@ -178,7 +184,7 @@ Endpoint ini mengelola daftar aktivitas ramah lingkungan yang tersedia.
     ]
     ```
 
------
+---
 
 ## 📈 Progress Pengguna (`/api/progress`)
 
@@ -186,9 +192,9 @@ Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan penggun
 
 ### `GET /api/progress/`
 
-  * **Deskripsi:** Mendapatkan data progress pengguna untuk 7 hari terakhir, data hari ini, dan total poin.
-  * **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Mendapatkan data progress pengguna untuk 7 hari terakhir, data hari ini, dan total poin.
+* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "progress": [
@@ -226,21 +232,21 @@ Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan penggun
         { "name": "Matikan lampu saat tidak digunakan", "points": 5, "completed": true }
       ],
       "totalPoints": 55,
-      "level": "🌿 Eco Explorer"
+      "level": "Eco Explorer"
     }
     ```
 
 ### `POST /api/progress/update`
 
-  * **Deskripsi:** Mencatat aktivitas baru yang diselesaikan oleh pengguna hari ini.
-  * **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-  * **Request Body (Input):**
+* **Deskripsi:** Mencatat aktivitas baru yang diselesaikan oleh pengguna hari ini.
+* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
+* **Request Body (Input):**
     ```json
     {
       "activityName": "Bawa tumbler minum"
     }
     ```
-  * **Contoh Output (Sukses 200):**
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "progress": {
@@ -261,11 +267,11 @@ Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan penggun
         "updatedAt": "2025-10-30T07:15:00.000Z"
       },
       "totalPoints": 65,
-      "level": "🌿 Eco Explorer",
+      "level": "Eco Explorer",
       "message": "+10 poin untuk Bawa tumbler minum!"
     }
     ```
-  * **Contoh Output (Error 400):**
+* **Contoh Output (Error 400):**
     ```json
     {
       "message": "Aktivitas sudah dicatat hari ini"
@@ -274,9 +280,9 @@ Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan penggun
 
 ### `GET /api/progress/savings`
 
-  * **Deskripsi:** Mendapatkan total akumulasi dampak lingkungan (penghematan) dari semua aktivitas yang pernah dicatat pengguna.
-  * **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Mendapatkan total akumulasi dampak lingkungan (penghematan) dari semua aktivitas yang pernah dicatat pengguna.
+* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "total_co2_kg": "12.50",
@@ -285,7 +291,7 @@ Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan penggun
     }
     ```
 
------
+---
 
 ## 🏆 Pengguna (`/api/users`)
 
@@ -293,45 +299,45 @@ Endpoint ini mengelola data terkait pengguna, seperti papan peringkat.
 
 ### `GET /api/users/leaderboard`
 
-  * **Deskripsi:** Mendapatkan 5 pengguna dengan total poin tertinggi.
-  * **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Mendapatkan 5 pengguna dengan total poin tertinggi.
+* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
+* **Contoh Output (Sukses 200):**
     ```json
     [
       {
         "_id": "6791b12a1b1234567890user1",
         "name": "Siti Lestari",
         "totalPoints": 350,
-        "level": "🔥 Climate Guardian"
+        "level": "Climate Guardian"
       },
       {
         "_id": "6791b12a1b1234567890user2",
         "name": "Budi Hartono",
         "totalPoints": 280,
-        "level": "🌎 Planet Hero"
+        "level": "Planet Hero"
       },
       {
         "_id": "6791b12a1b1234567890user3",
         "name": "Eka Cahyadi",
         "totalPoints": 120,
-        "level": "🌿 Eco Explorer"
+        "level": "Eco Explorer"
       },
       {
         "_id": "6791b12a1b1234567890abcd",
         "name": "Pengguna Baru",
         "totalPoints": 65,
-        "level": "🌿 Eco Explorer"
+        "level": "Eco Explorer"
       },
       {
         "_id": "6791b12a1b1234567890user5",
         "name": "Dewi Anggraini",
         "totalPoints": 30,
-        "level": "🌱 Green Starter"
+        "level": "Green Starter"
       }
     ]
     ```
 
------
+---
 
 ## 💡 Kutipan (`/api/quotes`)
 
@@ -339,9 +345,9 @@ Endpoint ini menyediakan kutipan motivasi.
 
 ### `GET /api/quotes/random`
 
-  * **Deskripsi:** Mendapatkan satu kutipan motivasi acak.
-  * **Autentikasi:** Tidak diperlukan.
-  * **Contoh Output (Sukses 200):**
+* **Deskripsi:** Mendapatkan satu kutipan motivasi acak.
+* **Autentikasi:** Tidak diperlukan.
+* **Contoh Output (Sukses 200):**
     ```json
     {
       "_id": "6791b12a1b1234567890qot1",
@@ -349,7 +355,7 @@ Endpoint ini menyediakan kutipan motivasi.
       "author": "Peribahasa Indian"
     }
     ```
-  * **Contoh Output (Jika DB kosong):**
+* **Contoh Output (Jika DB kosong):**
     ```json
     {
       "text": "Setiap tindakan kecil untuk lingkungan membawa perubahan besar untuk masa depan.",
