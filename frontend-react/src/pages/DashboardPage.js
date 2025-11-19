@@ -9,7 +9,7 @@ import LevelCard from '../components/dashboard/LevelCard';
 import ImpactCard from '../components/dashboard/ImpactCard';
 import BadgeGrid from '../components/dashboard/BadgeGrid';
 import Leaderboard from '../components/dashboard/Leaderboard';
-import AiMotivation from '../components/dashboard/AiMotivation';
+import Quote from '../components/dashboard/Quote';
 import AiAssistant from '../components/dashboard/AiAssistant';
 import ActivityList from '../components/dashboard/ActivityList';
 import ProgressChart from '../components/dashboard/ProgressChart';
@@ -107,7 +107,7 @@ function DashboardPage() {
               <ImpactCard savings={savings} />
               <BadgeGrid userBadges={progress.badges} />
               <Leaderboard users={leaderboard} />
-              <AiMotivation userName={user.name} userLevel={progress.level} />
+              <Quote />
               <AiAssistant completedToday={progress.todayProgress?.map(a => a.name) || []} />
             </aside>
 

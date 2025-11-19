@@ -1,4 +1,3 @@
-// src/components/dashboard/ImpactCard.js
 import React, { useState, useEffect } from 'react';
 import { authFetch } from '../../services/api';
 
@@ -8,7 +7,7 @@ function ImpactCard({ savings }) {
   useEffect(() => {
     if (!savings) return;
 
-    authFetch('/ai/analyze-impact', {
+    authFetch('/impact/analyze-impact', {
       method: 'POST',
       body: JSON.stringify(savings)
     })
