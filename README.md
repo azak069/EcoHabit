@@ -1,364 +1,132 @@
-# EcoHabit API Documentation
+<div align="center">
+  <a href="https://github.com/nrfalahsa/ecohabit">
+    <img src="https://raw.githubusercontent.com/nrfalahsa/EcoHabit/refs/heads/main/frontend/public/favicon/logo.png" alt="EcoHabit Logo" width="120" height="120">
+  </a>
 
-Dokumentasi ini menjelaskan semua endpoint yang tersedia untuk aplikasi EcoHabit.
+  <h1 align="center">EcoHabit 🌳</h1>
 
----
+  <p align="center">
+    <strong>Aplikasi Gamifikasi untuk Mengukur dan Meningkatkan Dampak Ekologis Personal.</strong>
+  </p>
 
-## 🩺 Health Check
-
-Endpoint ini digunakan untuk memverifikasi status server dan koneksi database.
-
-### `GET /api/health`
-
-* **Deskripsi:** Memeriksa status server dan koneksi database.
-* **Autentikasi:** Tidak diperlukan.
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "status": "OK",
-      "database": "Connected",
-      "timestamp": "2025-10-30T07:00:00.000Z"
-    }
-    ```
-
----
-
-## 🔐 Autentikasi (`/api/auth`)
-
-Endpoint ini mengelola registrasi, login, dan pemulihan password pengguna.
-
-### `POST /api/auth/register`
-
-* **Deskripsi:** Mendaftarkan pengguna baru.
-* **Autentikasi:** Tidak diperlukan.
-* **Request Body (Input):**
-    ```json
-    {
-      "name": "Pengguna Baru",
-      "email": "user@example.com",
-      "password": "password123"
-    }
-    ```
-* **Contoh Output (Sukses 201):**
-    ```json
-    {
-      "message": "User berhasil dibuat",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkxYj...",
-      "user": {
-        "id": "6791b12a1b1234567890abcd",
-        "name": "Pengguna Baru",
-        "email": "user@example.com",
-        "totalPoints": 0,
-        "level": "Green Starter"
-      }
-    }
-    ```
-* **Contoh Output (Error 400):**
-    ```json
-    {
-      "message": "User dengan email ini sudah terdaftar"
-    }
-    ```
-
-### `POST /api/auth/login`
-
-* **Deskripsi:** Melakukan login pengguna.
-* **Autentikasi:** Tidak diperlukan.
-* **Request Body (Input):**
-    ```json
-    {
-      "email": "user@example.com",
-      "password": "password123"
-    }
-    ```
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "message": "Login berhasil",
-      "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NzkxYj...",
-      "user": {
-        "id": "6791b12a1b1234567890abcd",
-        "name": "Pengguna Baru",
-        "email": "user@example.com",
-        "totalPoints": 50,
-        "level": "Green Starter"
-      }
-    }
-    ```
-* **Contoh Output (Error 400):**
-    ```json
-    {
-      "message": "Email atau password salah"
-    }
-    ```
-
-### `POST /api/auth/forgot`
-
-* **Deskripsi:** Meminta link reset password melalui email.
-* **Autentikasi:** Tidak diperlukan.
-* **Request Body (Input):**
-    ```json
-    {
-      "email": "user@example.com"
-    }
-    ```
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "message": "Email reset password telah dikirim"
-    }
-    ```
-* **Contoh Output (Error 404):**
-    ```json
-    {
-      "message": "User dengan email ini tidak ditemukan"
-    }
-    ```
-
-### `POST /api/auth/reset/:token`
-
-* **Deskripsi:** Mereset password pengguna menggunakan token dari email.
-* **Autentikasi:** Tidak diperlukan.
-* **Request Body (Input):**
-    ```json
-    {
-      "password": "passwordbaru123"
-    }
-    ```
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "message": "Password berhasil direset"
-    }
-    ```
-* **Contoh Output (Error 400):**
-    ```json
-    {
-      "message": "Token tidak valid atau sudah kadaluarsa"
-    }
-    ```
+  <p align="center">
+    <img src="https://img.shields.io/badge/Full_Stack-MERN-343a40?style=for-the-badge" alt="Full Stack MERN">
+    <img src="https://img.shields.io/badge/MongoDB-47A248?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB">
+    <img src="https://img.shields.io/badge/Express-000000?style=for-the-badge&logo=express&logoColor=white" alt="Express.js">
+    <img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React">
+    <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js">
+    <br>
+    <img src="https://img.shields.io/badge/AI_Powered-Gemini-74737E?style=for-the-badge&logo=google-gemini&logoColor=white" alt="AI Powered by Gemini">
+    <img src="https://img.shields.io/badge/Gamification-Badges_&_Levels-FFC107?style=for-the-badge&logo=badge&logoColor=white" alt="Gamification">
+    <img src="https://img.shields.io/badge/Auth-JWT_Auth-D32F2F?style=for-the-badge&logo=json-web-tokens&logoColor=white" alt="JWT Authentication">
+  </p>
+</div>
 
 ---
 
-## 🏃 Aktivitas (`/api/activities`)
+## 💡 Konsep & Manfaat Inti
 
-Endpoint ini mengelola daftar aktivitas ramah lingkungan yang tersedia.
+**EcoHabit** adalah platform yang mengakui bahwa perubahan iklim dimulai dari kebiasaan sehari-hari. Aplikasi ini menyediakan kerangka kerja yang terstruktur dan memotivasi untuk melacak **dampak positif** yang Anda berikan.
 
-### `GET /api/activities`
+### Mengapa Menggunakan EcoHabit?
 
-* **Deskripsi:** Mendapatkan semua daftar aktivitas yang tersedia.
-* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-* **Contoh Output (Sukses 200):**
-    ```json
-    [
-      {
-        "_id": "6791b12a1b1234567890def1",
-        "name": "Tanam pohon",
-        "points": 30,
-        "impact_co2_kg": 0,
-        "impact_water_liter": 0,
-        "impact_plastic_gram": 0,
-        "createdAt": "2025-10-30T07:00:00.000Z",
-        "updatedAt": "2025-10-30T07:00:00.000Z"
-      },
-      {
-        "_id": "6791b12a1b1234567890def2",
-        "name": "Gunakan transportasi umum",
-        "points": 20,
-        "impact_co2_kg": 1.0,
-        "impact_water_liter": 0,
-        "impact_plastic_gram": 0,
-        "createdAt": "2025-10-30T07:00:00.000Z",
-        "updatedAt": "2025-10-30T07:00:00.000Z"
-      },
-      {
-        "_id": "6791b12a1b1234567890def3",
-        "name": "Bawa tumbler minum",
-        "points": 10,
-        "impact_co2_kg": 0.08,
-        "impact_water_liter": 2,
-        "impact_plastic_gram": 20,
-        "createdAt": "2025-10-30T07:00:00.000Z",
-        "updatedAt": "2025-10-30T07:00:00.000Z"
-      }
-    ]
-    ```
+1.  **Bukti Nyata Dampak:** Selain poin, lihat total penghematan Anda dalam kilogram CO2, liter air, dan gram plastik yang berhasil Anda kurangi.
+2.  **Edukasi Berbasis AI:** Gunakan **Asisten Eco** untuk mendapatkan saran aktivitas hijau yang dipersonalisasi dan jawaban cepat atas pertanyaan lingkungan Anda.
+3.  **Pengalaman Menantang:** Naikkan level dari 'Green Starter' hingga 'Climate Guardian' dan kumpulkan lencana eksklusif.
 
 ---
 
-## 📈 Progress Pengguna (`/api/progress`)
+## 💻 Panduan Setup Lokal (Mulai dalam 4 Langkah)
 
-Endpoint ini melacak aktivitas harian, poin, dan total dampak lingkungan pengguna.
+Aplikasi ini menggunakan konfigurasi *monorepo* sederhana dengan folder `backend` (API) dan `frontend` (React App).
 
-### `GET /api/progress/`
+### Pra-Persiapan
 
-* **Deskripsi:** Mendapatkan data progress pengguna untuk 7 hari terakhir, data hari ini, dan total poin.
-* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "progress": [
-        {
-          "_id": "6791b12a1b1234567890pqr1",
-          "user": "6791b12a1b1234567890abcd",
-          "date": "2025-10-28T00:00:00.000Z",
-          "activities": [
-            { "name": "Bawa tumbler minum", "points": 10, "completed": true }
-          ],
-          "dailyPoints": 10
-        },
-        {
-          "_id": "6791b12a1b1234567890pqr2",
-          "user": "6791b12a1b1234567890abcd",
-          "date": "2025-10-30T00:00:00.000Z",
-          "activities": [
-            { "name": "Gunakan transportasi umum", "points": 20, "completed": true },
-            { "name": "Matikan lampu saat tidak digunakan", "points": 5, "completed": true }
-          ],
-          "dailyPoints": 25
-        }
-      ],
-      "chartData": [
-        { "date": "2025-10-24", "points": 0 },
-        { "date": "2025-10-25", "points": 0 },
-        { "date": "2025-10-26", "points": 0 },
-        { "date": "2025-10-27", "points": 0 },
-        { "date": "2025-10-28", "points": 10 },
-        { "date": "2025-10-29", "points": 0 },
-        { "date": "2025-10-30", "points": 25 }
-      ],
-      "todayProgress": [
-        { "name": "Gunakan transportasi umum", "points": 20, "completed": true },
-        { "name": "Matikan lampu saat tidak digunakan", "points": 5, "completed": true }
-      ],
-      "totalPoints": 55,
-      "level": "Eco Explorer"
-    }
+Pastikan Anda telah menginstal perangkat lunak berikut sebelum memulai:
+
+* **Node.js** (v18+ dianjurkan): Unduh dari [nodejs.org](https://nodejs.org/).
+* **MongoDB Instance**: Anda bisa menggunakan MongoDB lokal atau layanan cloud seperti MongoDB Atlas.
+* **Google Gemini API Key**: Daftar untuk mendapatkan kunci API di [Google AI Studio](https://ai.google.dev/).
+
+### Langkah 1: Kloning & Instalasi Dependencies
+
+Buka terminal Anda dan jalankan perintah berikut:
+
+```bash
+git clone [https://github.com/nrfalahsa/ecohabit.git](https://github.com/nrfalahsa/ecohabit.git)
+cd EcoHabit
+
+# Instalasi Dependencies di Backend
+cd backend
+npm install
+
+# Instalasi Dependencies di Frontend
+cd ../frontend
+npm install
+````
+
+### Langkah 2: Konfigurasi Variabel Lingkungan
+
+Buat file bernama **`.env`** di **kedua** direktori (`backend/` dan `frontend/`).
+
+**Wajib:** Salin isi dari file **`.env.example`** yang terletak di setiap direktori (baik `backend/` maupun `frontend/`) ke dalam file `.env` baru tersebut, lalu **isi semua variabel yang kosong**.
+
+  * **Untuk `backend/`:**
+
+      * Buat file `.env` dari **`backend/.env.example`**.
+      * Variabel kunci yang harus diisi: `MONGODB_URI`, `JWT_SECRET`, `GEMINI_API_KEY`, `EMAIL_USER`, dan `EMAIL_PASS`.
+
+  * **Untuk `frontend/`:**
+
+      * Buat file `.env` dari **`frontend/.env.example`**.
+      * Pastikan nilai `REACT_APP_API_BASE_URL` adalah `http://localhost:5000/api`.
+
+### Langkah 3: Database Seeding (Opsional)
+
+Jika Anda memulai dengan database kosong dan ingin mengisi beberapa data awal seperti daftar aktivitas dan kutipan motivasi, jalankan skrip ini dari folder `backend`:
+
+```bash
+cd backend
+node seed.js
+```
+
+### Langkah 4: Menjalankan Server
+
+Gunakan **dua terminal terpisah** untuk menjalankan Backend dan Frontend secara bersamaan.
+
+1.  **Terminal 1: Start API Server (Backend)**
+
+    ```bash
+    cd backend
+    npm run dev
+    # Server API akan berjalan di: http://localhost:5000
     ```
 
-### `POST /api/progress/update`
+2.  **Terminal 2: Start React App (Frontend)**
 
-* **Deskripsi:** Mencatat aktivitas baru yang diselesaikan oleh pengguna hari ini.
-* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-* **Request Body (Input):**
-    ```json
-    {
-      "activityName": "Bawa tumbler minum"
-    }
-    ```
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "progress": {
-        "_id": "6791b12a1b1234567890pqr3",
-        "user": "6791b12a1b1234567890abcd",
-        "date": "2025-10-30T00:00:00.000Z",
-        "activities": [
-          {
-            "name": "Bawa tumbler minum",
-            "points": 10,
-            "completed": true,
-            "completedAt": "2025-10-30T07:15:00.000Z",
-            "_id": "6791b12a1b1234567890act1"
-          }
-        ],
-        "dailyPoints": 10,
-        "createdAt": "2025-10-30T07:15:00.000Z",
-        "updatedAt": "2025-10-30T07:15:00.000Z"
-      },
-      "totalPoints": 65,
-      "level": "Eco Explorer",
-      "message": "+10 poin untuk Bawa tumbler minum!"
-    }
-    ```
-* **Contoh Output (Error 400):**
-    ```json
-    {
-      "message": "Aktivitas sudah dicatat hari ini"
-    }
+    ```bash
+    cd frontend
+    npm start
+    # Aplikasi web akan terbuka secara otomatis di browser Anda pada: http://localhost:3000
     ```
 
-### `GET /api/progress/savings`
+Akses aplikasi EcoHabit di `http://localhost:3000`.
 
-* **Deskripsi:** Mendapatkan total akumulasi dampak lingkungan (penghematan) dari semua aktivitas yang pernah dicatat pengguna.
-* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "total_co2_kg": "12.50",
-      "total_water_liter": "45.00",
-      "total_plastic_gram": "120.00"
-    }
-    ```
+-----
 
----
+## 🧑‍💻 Pengembang Kontributor
 
-## 🏆 Pengguna (`/api/users`)
+Proyek ini terwujud berkat kontribusi:
 
-Endpoint ini mengelola data terkait pengguna, seperti papan peringkat.
+| Foto | Peran | Username | GitHub |
+| :--- | :--- | :--- | :--- |
+| <img src="https://avatars.githubusercontent.com/u/174274132?v=4" width="50" height="50"> | **Backend** | nrfalahsa | [@nrfalahsa](https://github.com/nrfalahsa) |
+| <img src="https://avatars.githubusercontent.com/u/229116972?v=4" width="50" height="50"> | **Frontend** | bayulaksana147-sudo | [@bayulaksana147-sudo](https://github.com/bayulaksana147-sudo) |
+| <img src="https://avatars.githubusercontent.com/u/231007125?v=4" width="50" height="50"> | **Frontend** | azak069 | [@azak069](https://github.com/azak069) |
 
-### `GET /api/users/leaderboard`
-
-* **Deskripsi:** Mendapatkan 5 pengguna dengan total poin tertinggi.
-* **Autentikasi:** **Diperlukan** (`Authorization: Bearer <token>`).
-* **Contoh Output (Sukses 200):**
-    ```json
-    [
-      {
-        "_id": "6791b12a1b1234567890user1",
-        "name": "Siti Lestari",
-        "totalPoints": 350,
-        "level": "Climate Guardian"
-      },
-      {
-        "_id": "6791b12a1b1234567890user2",
-        "name": "Budi Hartono",
-        "totalPoints": 280,
-        "level": "Planet Hero"
-      },
-      {
-        "_id": "6791b12a1b1234567890user3",
-        "name": "Eka Cahyadi",
-        "totalPoints": 120,
-        "level": "Eco Explorer"
-      },
-      {
-        "_id": "6791b12a1b1234567890abcd",
-        "name": "Pengguna Baru",
-        "totalPoints": 65,
-        "level": "Eco Explorer"
-      },
-      {
-        "_id": "6791b12a1b1234567890user5",
-        "name": "Dewi Anggraini",
-        "totalPoints": 30,
-        "level": "Green Starter"
-      }
-    ]
-    ```
-
----
-
-## 💡 Kutipan (`/api/quotes`)
-
-Endpoint ini menyediakan kutipan motivasi.
-
-### `GET /api/quotes/random`
-
-* **Deskripsi:** Mendapatkan satu kutipan motivasi acak.
-* **Autentikasi:** Tidak diperlukan.
-* **Contoh Output (Sukses 200):**
-    ```json
-    {
-      "_id": "6791b12a1b1234567890qot1",
-      "text": "Bumi tidak warisan dari nenek moyang kita, tapi pinjaman untuk anak cucu kita.",
-      "author": "Peribahasa Indian"
-    }
-    ```
-* **Contoh Output (Jika DB kosong):**
-    ```json
-    {
-      "text": "Setiap tindakan kecil untuk lingkungan membawa perubahan besar untuk masa depan.",
-      "author": "EcoHabit"
-    }
-    ```
+<div align="center">
+  <p>
+    EcoHabit: Tindakan kecil, dampak besar.<br>
+    &copy; 2025 Superuser Team
+  </p>
+</div>
