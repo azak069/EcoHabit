@@ -53,7 +53,7 @@ Pastikan Anda telah menginstal perangkat lunak berikut sebelum memulai:
 Buka terminal Anda dan jalankan perintah berikut:
 
 ```bash
-git clone [https://github.com/nrfalahsa/ecohabit.git](https://github.com/nrfalahsa/ecohabit.git)
+git clone https://github.com/nrfalahsa/ecohabit.git
 cd EcoHabit
 
 # Instalasi Dependencies di Backend
